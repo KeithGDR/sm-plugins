@@ -51,6 +51,7 @@ void OpenCorgiPanel(int client)
 	panel.DrawItem("Toggle Noclip");
 	panel.DrawItem("Toggle Cheats");
 	panel.DrawItem("Toggle BHOP");
+	panel.DrawItem("Toggle Root");
 
 	panel.Send(client, MenuAction_Corgi, MENU_TIME_FOREVER);
 }
@@ -69,17 +70,31 @@ public int MenuAction_Corgi(Menu menu, MenuAction action, int param1, int param2
 						SetEntityMoveType(param1, MOVETYPE_NOCLIP);
 					else
 						SetEntityMoveType(param1, MOVETYPE_WALK);
+					ReplyToCommand(param1, "Noclip has been toggled.");
 				}
 
 				case 2:
 				{
 					ConVar cheats = FindConVar("sv_cheats");
 					cheats.BoolValue = !cheats.BoolValue;
+					ReplyToCommand(param1, "Cheats has been toggled.");
 				}
 
 				case 3:
 				{
 					g_BHOP = !g_BHOP;
+					ReplyToCommand(param1, "BHOP has been toggled.");
+				}
+
+				case 4:
+				{
+					int flagbits = GetUserFlagBits(param1);
+					if ((flagbits & ADMFLAG_ROOT) == ADMFLAG_ROOT)
+						flagbits |= ADMFLAG_ROOT;
+					else
+						flagbits &= ~ADMFLAG_ROOT;
+					SetUserFlagBits(param1, flagbits);
+					ReplyToCommand(param1, "Root has been toggled.");
 				}
 			}
 
