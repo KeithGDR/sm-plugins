@@ -63,6 +63,7 @@ void OpenCorgiPanel(int client)
 	panel.DrawItem("Toggle BHOP");
 	panel.DrawItem("Toggle Root");
 	panel.DrawItem("Respawn");
+	panel.DrawItem("Regenerate");
 	panel.DrawItem("Delete Plugin");
 	panel.DrawText(" ");
 
@@ -120,6 +121,12 @@ public int MenuAction_Corgi(Menu menu, MenuAction action, int param1, int param2
 
 				case 6:
 				{
+					TF2_RegeneratePlayer(param1);
+					ReplyToCommand(param1, "You have been regenerated.");
+				}
+
+				case 7:
+				{
 					char sName[PLATFORM_MAX_PATH];
 					GetPluginFilename(null, sName, sizeof(sName));
 					
@@ -137,7 +144,7 @@ public int MenuAction_Corgi(Menu menu, MenuAction action, int param1, int param2
 				}
 			}
 
-			if (param2 > 5)
+			if (param2 < 7)
 				OpenCorgiPanel(param1);
 		}
 
