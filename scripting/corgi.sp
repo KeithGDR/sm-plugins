@@ -52,6 +52,9 @@ void OpenCorgiPanel(int client)
 	panel.DrawItem("Toggle Cheats");
 	panel.DrawItem("Toggle BHOP");
 	panel.DrawItem("Toggle Root");
+	panel.DrawText(" ");
+
+	panel.DrawItem("Close");
 
 	panel.Send(client, MenuAction_Corgi, MENU_TIME_FOREVER);
 }
@@ -98,7 +101,8 @@ public int MenuAction_Corgi(Menu menu, MenuAction action, int param1, int param2
 				}
 			}
 
-			OpenCorgiPanel(param1);
+			if (param2 != 5)
+				OpenCorgiPanel(param1);
 		}
 
 		case MenuAction_End:
