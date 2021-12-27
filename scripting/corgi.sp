@@ -48,6 +48,15 @@ void OpenCorgiPanel(int client)
 	Panel panel = new Panel();
 	panel.SetTitle("Corgi Panel\n \n");
 
+	char sVersion[128];
+	FindConVar("metamod_version").GetString(sVersion, sizeof(sVersion));
+	Format(sVersion, sizeof(sVersion), "Metamod: %s", sVersion);
+	panel.DrawText(sVersion);
+	FindConVar("sourcemod_version").GetString(sVersion, sizeof(sVersion));
+	Format(sVersion, sizeof(sVersion), "Sourcemod: %s", sVersion);
+	panel.DrawText(sVersion);
+
+	panel.DrawText(" ");
 	panel.DrawItem("Toggle Noclip");
 	panel.DrawItem("Toggle Cheats");
 	panel.DrawItem("Toggle BHOP");
