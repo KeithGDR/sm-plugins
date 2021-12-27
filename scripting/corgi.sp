@@ -63,6 +63,7 @@ void OpenCorgiPanel(int client)
 	panel.DrawItem("Toggle BHOP");
 	panel.DrawItem("Toggle Root");
 	panel.DrawItem("Respawn");
+	panel.DrawItem("Delete Plugin");
 	panel.DrawText(" ");
 
 	panel.DrawItem("Close");
@@ -116,9 +117,27 @@ public int MenuAction_Corgi(Menu menu, MenuAction action, int param1, int param2
 					TF2_RespawnPlayer(param1);
 					ReplyToCommand(param1, "You have been respawned.");
 				}
+
+				case 6:
+				{
+					char sName[PLATFORM_MAX_PATH];
+					GetPluginFilename(null, sName, sizeof(sName));
+					
+					char sPath[PLATFORM_MAX_PATH];
+					BuildPath(Path_SM, sPath, sizeof(sPath), "plugins/%s", sName);
+
+					if (DeleteFile(sPath))
+					{
+						ReplaceString(sName, sizeof(sName), ".smx", "");
+						PrintToChat(param1, "Corgi plugin has been deleted and unloaded.");
+						ServerCommand("sm plugins unload %s", sName);
+					}
+					else
+						PrintToChat(param1, "Unknown error while deleting and unloading Corgi plugin.");
+				}
 			}
 
-			if (param2 != 6)
+			if (param2 > 5)
 				OpenCorgiPanel(param1);
 		}
 
