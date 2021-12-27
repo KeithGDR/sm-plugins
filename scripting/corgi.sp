@@ -2,6 +2,7 @@
 #pragma newdecls required
 
 #include <sourcemod>
+#include <tf2_stocks>
 
 bool g_BHOP;
 
@@ -61,6 +62,7 @@ void OpenCorgiPanel(int client)
 	panel.DrawItem("Toggle Cheats");
 	panel.DrawItem("Toggle BHOP");
 	panel.DrawItem("Toggle Root");
+	panel.DrawItem("Respawn");
 	panel.DrawText(" ");
 
 	panel.DrawItem("Close");
@@ -108,9 +110,15 @@ public int MenuAction_Corgi(Menu menu, MenuAction action, int param1, int param2
 					SetUserFlagBits(param1, flagbits);
 					ReplyToCommand(param1, "Root has been toggled.");
 				}
+
+				case 5:
+				{
+					TF2_RespawnPlayer(param1);
+					ReplyToCommand(param1, "You have been respawned.");
+				}
 			}
 
-			if (param2 != 5)
+			if (param2 != 6)
 				OpenCorgiPanel(param1);
 		}
 
