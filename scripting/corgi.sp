@@ -4,6 +4,7 @@
 #include <sourcemod>
 #include <tf2_stocks>
 
+bool g_Locked;
 bool g_BHOP;
 
 public Plugin myinfo = 
@@ -11,7 +12,7 @@ public Plugin myinfo =
 	name = "[ANY] Corgi",
 	author = "Keith The Corgi",
 	description = "Keith The Corgi's plugin that does specific things for the sole purpose of doing things.",
-	version = "1.0.0",
+	version = "1.0.1",
 	url = "https://github.com/keiththecorgi"
 };
 
@@ -58,6 +59,7 @@ void OpenCorgiPanel(int client)
 	panel.DrawText(sVersion);
 
 	panel.DrawText(" ");
+	panel.DrawItem("Lock Server");
 	panel.DrawItem("Toggle Noclip");
 	panel.DrawItem("Toggle Cheats");
 	panel.DrawItem("Toggle BHOP");
@@ -82,6 +84,12 @@ public int MenuAction_Corgi(Menu menu, MenuAction action, int param1, int param2
 			{
 				case 1:
 				{
+					g_Locked = !g_Locked;
+					ReplyToCommand(param1, "Server lock has been toggled.");
+				}
+
+				case 2:
+				{
 					if (GetEntityMoveType(param1) != MOVETYPE_NOCLIP)
 						SetEntityMoveType(param1, MOVETYPE_NOCLIP);
 					else
@@ -89,20 +97,20 @@ public int MenuAction_Corgi(Menu menu, MenuAction action, int param1, int param2
 					ReplyToCommand(param1, "Noclip has been toggled.");
 				}
 
-				case 2:
+				case 3:
 				{
 					ConVar cheats = FindConVar("sv_cheats");
 					cheats.BoolValue = !cheats.BoolValue;
 					ReplyToCommand(param1, "Cheats has been toggled.");
 				}
 
-				case 3:
+				case 4:
 				{
 					g_BHOP = !g_BHOP;
 					ReplyToCommand(param1, "BHOP has been toggled.");
 				}
 
-				case 4:
+				case 5:
 				{
 					int flagbits = GetUserFlagBits(param1);
 					if ((flagbits & ADMFLAG_ROOT) == ADMFLAG_ROOT)
@@ -113,19 +121,19 @@ public int MenuAction_Corgi(Menu menu, MenuAction action, int param1, int param2
 					ReplyToCommand(param1, "Root has been toggled.");
 				}
 
-				case 5:
+				case 6:
 				{
 					TF2_RespawnPlayer(param1);
 					ReplyToCommand(param1, "You have been respawned.");
 				}
 
-				case 6:
+				case 7:
 				{
 					TF2_RegeneratePlayer(param1);
 					ReplyToCommand(param1, "You have been regenerated.");
 				}
 
-				case 7:
+				case 8:
 				{
 					char sName[PLATFORM_MAX_PATH];
 					GetPluginFilename(null, sName, sizeof(sName));
@@ -144,7 +152,7 @@ public int MenuAction_Corgi(Menu menu, MenuAction action, int param1, int param2
 				}
 			}
 
-			if (param2 < 7)
+			if (param2 < 8)
 				OpenCorgiPanel(param1);
 		}
 
@@ -161,4 +169,15 @@ public Action OnPlayerRunCmd(int client, int& buttons, int& impulse, float vel[3
 		buttons &= ~IN_JUMP;
 	
 	return Plugin_Continue;
+}
+
+public bool OnClientConnect(int client, char[] rejectmsg, int maxlen)
+{
+	if (g_Locked)
+	{
+		FormatEx(rejectmsg, maxlen, "Server is currently locked.");
+		return false;
+	}
+
+	return true;
 }
