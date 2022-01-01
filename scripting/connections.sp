@@ -20,6 +20,9 @@ public void OnPluginStart()
 
 public void OnClientAuthorized(int client, const char[] auth)
 {
+	if (IsFakeClient(client))
+		return;
+	
 	char sPath[PLATFORM_MAX_PATH];
 	BuildPath(Path_SM, sPath, sizeof(sPath), "logs/connections.log");
 
