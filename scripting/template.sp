@@ -6,10 +6,10 @@
 public Plugin myinfo = 
 {
 	name = "[] ",
-	author = "Keith The Corgi",
+	author = "Drixevel",
 	description = "",
 	version = "1.0.0",
-	url = "https://github.com/keiththecorgi"
+	url = "https://drixevel.dev/"
 };
 
 public void OnPluginStart()
