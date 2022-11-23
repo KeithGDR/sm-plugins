@@ -1,0 +1,14 @@
+"Phrases"
+{
+	"Hud time format"
+	{
+		"#format"	"{1:s},{2:s},{3:s},{4:s}" //1 = 24-hour, 2 = 12-hour, 3 = minute, 4 = second
+		"en"	"{2}:{3}:{4}"
+	}
+	
+	"Toggle hud time"
+	{
+		"#format"	"{1:s}" //1 = status
+		"en"	"Hud time has been toggled {1}."
+	}
+}
