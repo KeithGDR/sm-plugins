@@ -90,8 +90,20 @@ native void SBPP_ReportPlayer(int iReporter, int iTarget, const char[] sReason);
  * @param iTarget    The client index of the player to ban
  * @param iTime      The time to ban the player for (in minutes, 0 = permanent)
  * @param sReason    The reason to ban the player from the server
+ * @return           Return Plugin_Continue to continue, Plugin_Stop to stop the ban and Plugin_Handled to process the ban but don't kick the player.
  *********************************************************/
-forward void SBPP_OnBanPlayer(int iAdmin, int iTarget, int iTime, const char[] sReason);
+forward Action SBPP_OnBanPlayerPre(int iAdmin, int iTarget, int iTime, const char[] sReason);
+
+/*********************************************************
+ * Called when the admin banning the player.
+ *
+ * @param iAdmin	The client index of the admin who is banning the client
+ * @param iTarget    The client index of the player to ban
+ * @param iTime      The time to ban the player for (in minutes, 0 = permanent)
+ * @param sReason    The reason to ban the player from the server
+ * @param bKicked    Whether the player was kicked or not upon ban.
+ *********************************************************/
+forward void SBPP_OnBanPlayer(int iAdmin, int iTarget, int iTime, const char[] sReason, bool bKicked);
 
 /*********************************************************
  * Called when a new report is inserted
