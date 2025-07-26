@@ -30,6 +30,15 @@ methodmap CBaseEntity
 	}
 
 	/**
+	 * Explicitly deletes an entity on the network in order to refresh it.
+	 * You can compute a state for each player. If that state changes, the entity will be deleted.
+	 *
+	 * @param player The player index to update the state for.
+	 * @param state  State for the player.
+	 */
+	public native void RefreshNetwork(int player, bool state);
+
+	/**
 	 * This is the vtable offset of CBaseEntity::UpdateOnRemove.
 	 *
 	 * @return       VTable offset.
@@ -744,10 +753,23 @@ methodmap CBaseEntity
 	}
 
 	/**
+	 * Alias of DispatchKeyValueInt().
+	 *
+	 * @param keyName       Name of the key.
+	 * @param value         Integer value.
+	 * @return              True on success, false otherwise.
+	 * @error               Invalid entity, or no mod support.
+	 */
+	public bool KeyValueInt(const char[] keyName, int value)
+	{
+		return DispatchKeyValueInt(this.index, keyName, value);
+	}
+
+	/**
 	 * Alias of DispatchKeyValueFloat().
 	 *
 	 * @param keyName       Name of the key.
-	 * @param value         String value.
+	 * @param value         Float value.
 	 * @return              True on success, false otherwise.
 	 * @error               Invalid entity, or no mod support.
 	 */
@@ -760,7 +782,7 @@ methodmap CBaseEntity
 	 * Alias of DispatchKeyValueVector().
 	 *
 	 * @param keyName       Name of the key.
-	 * @param value         String value.
+	 * @param value         Vector value.
 	 * @return              True on success, false otherwise.
 	 * @error               Invalid entity, or no mod support.
 	 */
